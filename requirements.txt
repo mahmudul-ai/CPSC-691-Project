@@ -1,0 +1,9 @@
+imageio==2.36.1
+matplotlib==3.10.0
+nibabel==5.3.2
+numpy==2.2.0
+pygame==2.6.1
+PyOpenGL==3.1.7
+scipy==1.14.1
+skimage==0.0
+trimesh==4.5.3
