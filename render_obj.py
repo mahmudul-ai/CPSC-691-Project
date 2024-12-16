@@ -2,7 +2,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 # Render the loaded object using VBOs
-def render_obj(vertices, faces, normals):
+def render_obj(vertices, faces, normals, draw_edges=False):
     # Create Vertex Buffer Object (VBO) for vertices, normals, and indices
     vertex_data = vertices.flatten()
     normal_data = normals.flatten()
@@ -36,6 +36,14 @@ def render_obj(vertices, faces, normals):
     # Draw the object
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer)
     glDrawElements(GL_TRIANGLES, len(index_data), GL_UNSIGNED_INT, None)
+
+    if draw_edges:
+        glDisable(GL_LIGHTING)
+        glColor3f(0.0, 0.0, 0.0)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+        glDrawElements(GL_TRIANGLES, len(index_data), GL_UNSIGNED_INT, None)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
+        glEnable(GL_LIGHTING)
 
     # Disable vertex and normal arrays
     glDisableClientState(GL_VERTEX_ARRAY)

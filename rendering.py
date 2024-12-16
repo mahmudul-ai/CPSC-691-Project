@@ -116,7 +116,7 @@ try:
 
         # Render the tumor object (it will now be drawn on top of the brain)
         glMaterialfv(GL_FRONT, GL_DIFFUSE, [0.84, 0.1, 0.11, 1.0])  # Color 2 with no transparency
-        render_obj(tumor_vertices, tumor_faces, tumor_normals)
+        render_obj(tumor_vertices, tumor_faces, tumor_normals, draw_edges=True)
 
         # Disable slicing plane
         glDisable(GL_CLIP_PLANE0)
