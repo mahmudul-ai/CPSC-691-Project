@@ -54,6 +54,12 @@ try:
     mouse_down = False
     last_mouse_x, last_mouse_y = 0, 0
 
+    # Dynamic rotation variables
+    dynamic_rotation_y = 0
+    dynamic_rotation_speed = 0.5
+    dynamic_rotation_direction = 1
+    dynamic_rotation_range = 360  # +/- 360 degrees from the center
+
     # Interactive slicing variables
     slice_position = 0.0
 
@@ -85,6 +91,11 @@ try:
                 elif event.key == pygame.K_DOWN:
                     slice_position -= 0.1
 
+        # Update dynamic rotation angle
+        dynamic_rotation_y += dynamic_rotation_speed * dynamic_rotation_direction
+        if dynamic_rotation_y > dynamic_rotation_range or dynamic_rotation_y < -dynamic_rotation_range:
+            dynamic_rotation_direction *= -1
+
         # Clear the screen and depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
@@ -98,8 +109,14 @@ try:
         # Apply rotations
         glPushMatrix()
         glTranslatef(brain_center[0], brain_center[1], brain_center[2])
+
+        # Apply dynamic rotation around y-axis
+        glRotatef(dynamic_rotation_y, 0, 1, 0)
+        
+        # Apply user-controlled rotations
         glRotatef(rotation_x, 1, 0, 0)
         glRotatef(rotation_y, 0, 1, 0)
+        
         glTranslatef(-brain_center[0], -brain_center[1], -brain_center[2])
 
         # Apply slicing plane
@@ -108,7 +125,7 @@ try:
         glClipPlane(GL_CLIP_PLANE0, slice_eqn)
 
         # Render the brain object with transparency
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, [0.8, 0.8, 0.98, 0.95])  # Color 1 with 95% transparency
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, [0.8, 0.8, 0.98, 0.5])  # Color 1 with 50% transparency
         render_obj(brain_vertices, brain_faces, brain_normals)
 
         # Enable depth writing again before rendering the tumor
@@ -127,10 +144,6 @@ try:
         # Update the display
         pygame.display.flip()
 
-        # # Limit the frame rate to 30 FPS
-        # clock.tick(30)
-
-
         # Limit the frame rate to 30 FPS
         clock.tick(30)
     pygame.quit()
@@ -138,3 +151,4 @@ except FileNotFoundError as fnf_error:
     print(fnf_error)
 except Exception as e:
     print(e)
+

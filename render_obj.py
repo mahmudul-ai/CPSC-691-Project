@@ -39,7 +39,7 @@ def render_obj(vertices, faces, normals, draw_edges=False):
 
     if draw_edges:
         glDisable(GL_LIGHTING)
-        glColor3f(0.0, 0.0, 0.0)
+        glColor3f(1., 1., 1.)
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
         glDrawElements(GL_TRIANGLES, len(index_data), GL_UNSIGNED_INT, None)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
