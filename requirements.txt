@@ -5,5 +5,5 @@ numpy==2.2.0
 pygame==2.6.1
 PyOpenGL==3.1.7
 scipy==1.14.1
-skimage==0.0
+scikit-image==0.25.0
 trimesh==4.5.3
